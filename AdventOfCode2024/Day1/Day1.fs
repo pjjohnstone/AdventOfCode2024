@@ -27,7 +27,17 @@ let parseLines inputs =
   |> List.map parseLine
   |> List.unzip
   
-let calculate puzzleInputLines =
+let similarity list state candidate :int =
+  list
+  |> List.filter (fun i -> i = candidate)
+  |> fun matches -> state + matches.Length * candidate
+  
+let sumSimilarity left right =
+  let rightSimilar = similarity right
+  left
+  |> List.fold rightSimilar 0
+
+let calculate func puzzleInputLines =
   puzzleInputLines
   |> parseLines
-  |> fun (left, right) -> sumDistances left right 
+  |> fun (left, right) -> func left right

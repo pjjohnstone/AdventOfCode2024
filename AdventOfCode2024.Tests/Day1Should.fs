@@ -22,3 +22,23 @@ let parseLinesSources = [
 [<TestCaseSource("parseLinesSources")>]
 let ``Parse many input lines`` inputs =
   parseLines inputs
+
+let similaritySources = [
+  TestCaseData(3, [4;3;5;3;9;3]).Returns(9)
+  TestCaseData(4, [4;3;5;3;9;3]).Returns(4)
+  TestCaseData(2, [4;3;5;3;9;3]).Returns(0)
+]
+
+[<TestCaseSource(nameof(similaritySources))>]
+let ``Calculate similarity of an int and a list`` input =
+  let candidate, list = input
+  similarity list 0 candidate
+
+let sumSimilaritySources = [
+  TestCaseData([3;4;2;1;3;3], [4;3;5;3;9;3]).Returns(31)
+]
+
+[<TestCaseSource(nameof(sumSimilaritySources))>]
+let ``Calculate similarity of two lists`` input =
+  let left, right = input
+  sumSimilarity left right
