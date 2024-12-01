@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2a570112_002Df58d_002D4ac1_002D8e45_002D245ba5ecd03e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Sum distances between values" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::99B611E1-E89E-4F97-AC6C-DFDF83E15A33::net9.0::AdventOfCode2024.Tests.Sum distances between values&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::99B611E1-E89E-4F97-AC6C-DFDF83E15A33::net9.0::AdventOfCode2024.Tests.Parse an input line&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::99B611E1-E89E-4F97-AC6C-DFDF83E15A33::net9.0::AdventOfCode2024.Tests.Parse many input lines&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
