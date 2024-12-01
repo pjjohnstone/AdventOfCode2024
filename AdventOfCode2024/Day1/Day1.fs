@@ -1,8 +1,7 @@
 ﻿module AdventOfCode2024.Day1
 
 let distance state left right :int =
-  if left < right then state + (right - left)
-  else state + (left - right)
+  state + abs(left - right)
   
 let sumDistances left right =
   left
