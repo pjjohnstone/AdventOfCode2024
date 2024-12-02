@@ -6,29 +6,39 @@ type Safety =
   | Safe
   | Unsafe
 
-let isAscending report =
-  report
-  |> List.pairwise
-  |> List.forall (fun (left,right) -> left < right)
+let isAscending (report: int list option) =
+  match report with
+  | None -> false
+  | Some r ->
+    r
+    |> List.pairwise
+    |> List.forall (fun (left,right) -> left < right)
   
-let isDescending report =
-  report
-  |> List.pairwise
-  |> List.forall (fun (left,right) -> left > right)
+let isDescending (report: int list option) =
+  match report with
+  | None -> false
+  | Some r ->
+    r
+    |> List.pairwise
+    |> List.forall (fun (left,right) -> left > right)
 
-let isSequential report =
+let isSequential (report: int list option) =
   report
   |> fun report -> isAscending report || isDescending report
   
-let dampener func (report: int list) =
-  report
-  |> List.mapi (fun i _ ->
-    report
-    |> List.removeAt i
-    |> func)
-  |> List.exists (fun b -> b = true)
+let dampener func (report: int list option) =
+  match report with
+  | None -> false
+  | Some r ->
+    r
+    |> List.mapi (fun i _ ->
+      r
+      |> List.removeAt i
+      |> Some
+      |> func)
+    |> List.exists (fun b -> b = true)
   
-let isSequentialDampened (report: int list) =
+let isSequentialDampened report =
   match isSequential report with
   | true -> true
   | false ->
@@ -41,14 +51,21 @@ let gapsAreAcceptable report =
   | Some(r) ->
     r
     |> List.pairwise
-    |> List.forall (fun (left, right) -> abs(left - right) < 4)    
+    |> List.forall (fun (left, right) -> abs(left - right) < 4)
+    
+let gapsAreAcceptableDampened report =
+  match gapsAreAcceptable report with
+  | true -> true
+  | false ->
+    report
+    |> dampener gapsAreAcceptable
   
-let checkSequence sequenceChecker report =
+let checkSequence sequenceChecker (report: int list option) =
   match sequenceChecker report with
-  | true -> Some(report)
+  | true -> report
   | false -> None
   
-let checkGaps gapTester report =
+let checkGaps gapTester (report: int list option) =
   match report with
   | None -> report
   | Some _ ->
@@ -56,7 +73,7 @@ let checkGaps gapTester report =
     | true -> report
     | false -> None
 
-let checkReport report =
+let checkReport (report: int list option) =
   report
   |> checkSequence isSequential
   |> checkGaps gapsAreAcceptable
@@ -65,10 +82,10 @@ let checkReport report =
     | Some _ -> Safe
     | None -> Unsafe
     
-let checkReportWithDampener report =
+let checkReportWithDampener (report: int list option) =
   report
   |> checkSequence isSequentialDampened
-  |> checkGaps gapsAreAcceptable
+  |> checkGaps gapsAreAcceptableDampened
   |> fun report ->
     match report with
     | Some _ -> Safe
@@ -78,10 +95,11 @@ let parseLine (line: string) =
   line.Split ' '
   |> Array.toList
   |> List.map stringToInt
+  |> Some
  
-let sumSafeReports reports =
+let sumSafeReports func reports =
   reports
-  |> List.map checkReport
+  |> List.map func
   |> List.filter (fun r -> r = Safe)
   |> List.length
  
