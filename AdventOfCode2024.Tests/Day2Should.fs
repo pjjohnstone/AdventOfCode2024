@@ -15,3 +15,27 @@ let safetyCases = [
 [<TestCaseSource(nameof(safetyCases))>]
 let ``Determine safety of a report`` input =
   checkReport input
+  
+let parserCases = [
+  TestCaseData("7 6 4 2 1").Returns([7; 6; 4; 2; 1])
+  TestCaseData("40 42 43 46 47 48 49 49").Returns([40; 42; 43; 46; 47; 48; 49; 49])
+]
+
+[<TestCaseSource(nameof(parserCases))>]
+let ``Parse input lines`` input =
+  parseLine input
+
+let sumSafetyCases =
+  [ TestCaseData(
+      [ [ 7; 6; 4; 2; 1 ]
+        [ 1; 2; 7; 8; 9 ]
+        [ 9; 7; 6; 2; 1 ]
+        [ 1; 3; 2; 4; 5 ]
+        [ 8; 6; 4; 4; 1 ]
+        [ 1; 3; 6; 7; 9 ] ]
+    )
+      .Returns(2) ]
+  
+[<TestCaseSource(nameof(sumSafetyCases))>]
+let ``Sum safe reports`` input =
+  sumSafeReports input

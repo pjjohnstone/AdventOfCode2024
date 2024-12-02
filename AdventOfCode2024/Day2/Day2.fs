@@ -1,5 +1,7 @@
 ﻿module AdventOfCode2024.Day2.Day2
 
+open AdventOfCode2024
+
 type Safety =
   | Safe
   | Unsafe
@@ -47,3 +49,19 @@ let checkReport report =
     match report with
     | Some _ -> Safe
     | None -> Unsafe
+    
+let parseLine (line: string) =
+  line.Split ' '
+  |> Array.toList
+  |> List.map stringToInt
+ 
+let sumSafeReports reports =
+  reports
+  |> List.map checkReport
+  |> List.filter (fun r -> r = Safe)
+  |> List.length
+ 
+let calculate func lines =
+  lines
+  |> List.map parseLine
+  |> func
