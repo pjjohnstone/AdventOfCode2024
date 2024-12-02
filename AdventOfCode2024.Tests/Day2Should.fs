@@ -47,8 +47,9 @@ let safetyCasesWithDampener = [
   TestCaseData([1; 3; 2; 4; 5]).Returns(Safe)
   TestCaseData([8; 6; 4; 4; 1]).Returns(Safe)
   TestCaseData([1; 3; 6; 7; 9]).Returns(Safe)
+  TestCaseData([1; 3; 6; 7; 11]).Returns(Safe)
 ]
 
 [<TestCaseSource(nameof(safetyCasesWithDampener))>]
 let ``Determine safety of a report with problem dampener`` input =
-  checkReport input
+  checkReportWithDampener input

@@ -20,6 +20,21 @@ let isSequential report =
   report
   |> fun report -> isAscending report || isDescending report
   
+let dampener func (report: int list) =
+  report
+  |> List.mapi (fun i _ ->
+    report
+    |> List.removeAt i
+    |> func)
+  |> List.exists (fun b -> b = true)
+  
+let isSequentialDampened (report: int list) =
+  match isSequential report with
+  | true -> true
+  | false ->
+    report
+    |> dampener isSequential
+  
 let gapsAreAcceptable report =
   match report with
   | None -> false
@@ -44,6 +59,15 @@ let checkGaps gapTester report =
 let checkReport report =
   report
   |> checkSequence isSequential
+  |> checkGaps gapsAreAcceptable
+  |> fun report ->
+    match report with
+    | Some _ -> Safe
+    | None -> Unsafe
+    
+let checkReportWithDampener report =
+  report
+  |> checkSequence isSequentialDampened
   |> checkGaps gapsAreAcceptable
   |> fun report ->
     match report with
