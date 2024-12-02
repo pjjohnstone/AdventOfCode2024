@@ -1,4 +1,4 @@
-﻿module AdventOfCode2024.Tests
+﻿module AdventOfCode2024.Tests.Day1Should
 
 open NUnit.Framework
 open AdventOfCode2024.Day1
