@@ -28,23 +28,23 @@ let gapsAreAcceptable report =
     |> List.pairwise
     |> List.forall (fun (left, right) -> abs(left - right) < 4)    
   
-let checkSequence report =
-  match isSequential report with
+let checkSequence sequenceChecker report =
+  match sequenceChecker report with
   | true -> Some(report)
   | false -> None
   
-let checkGaps report =
+let checkGaps gapTester report =
   match report with
   | None -> report
   | Some _ ->
-    match gapsAreAcceptable report with
+    match gapTester report with
     | true -> report
     | false -> None
 
 let checkReport report =
   report
-  |> checkSequence
-  |> checkGaps
+  |> checkSequence isSequential
+  |> checkGaps gapsAreAcceptable
   |> fun report ->
     match report with
     | Some _ -> Safe
