@@ -37,14 +37,6 @@ let dampener func (report: int list option) =
       |> Some
       |> func)
     |> List.exists (fun b -> b = true)
-
-let problemDampener report func index =
-  let reducedList =
-    report
-    |> List.choose id
-    |> List.removeAt index
-    |> Some
-  isSequential reducedList
   
 let isSequentialDampened report =
   match isSequential report with
