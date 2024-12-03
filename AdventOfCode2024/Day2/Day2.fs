@@ -26,6 +26,16 @@ let isSequential (report: int list option) =
   report
   |> fun report -> isAscending report || isDescending report
   
+let problemDampener report func index =
+  match report with
+    | None -> false
+    | Some r ->
+      let reducedList =    
+        r
+        |> List.removeAt index
+        |> Some
+      func reducedList
+ 
 let dampener func (report: int list option) =
   match report with
   | None -> false

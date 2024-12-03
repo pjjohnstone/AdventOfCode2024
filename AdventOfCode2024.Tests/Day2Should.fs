@@ -38,7 +38,7 @@ let sumSafetyCases =
   
 [<TestCaseSource(nameof(sumSafetyCases))>]
 let ``Sum safe reports`` input =
-  sumSafeReports input
+  sumSafeReports checkReport input
   
 let safetyCasesWithDampener = [
   TestCaseData(Some([7; 6; 4; 2; 1])).Returns(Safe)
@@ -53,3 +53,13 @@ let safetyCasesWithDampener = [
 [<TestCaseSource(nameof(safetyCasesWithDampener))>]
 let ``Determine safety of a report with problem dampener`` input =
   checkReportWithDampener input
+  
+let sequentialDampenerCases = [
+  TestCaseData(Some([8; 6; 4; 4; 1]), isSequential, 0).Returns(false)
+  TestCaseData(Some([8; 6; 4; 4; 1]), isSequential, 1).Returns(false)
+  TestCaseData(Some([8; 6; 4; 4; 1]), isSequential, 2).Returns(true)
+]
+[<TestCaseSource(nameof(sequentialDampenerCases))>]
+let ``Applies problem dampener to sequential test`` input =
+  let list, func, index = input
+  problemDampener list func index
