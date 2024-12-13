@@ -24,13 +24,23 @@ let applyRules stone result  =
     match stone.ToString().Length % 2 with
     | 0 -> (splitStone stone)@result
     | _ -> [stone * 2024L]@result
+    
+let applyRulesAsync stones =
+  async {
+    return List.foldBack applyRules stones []
+  }
 
 let rec blinkTimes blinks (stones: int64 list) =
   printfn $"%i{blinks} blinks remaining"
   match blinks with
   | 0 -> stones
   | _ ->
-    List.foldBack applyRules stones []
+    stones
+    |> List.chunkBySize 100
+    |> List.map applyRulesAsync
+    |> Async.Parallel
+    |> Async.RunSynchronously
+    |> List.concat
     |> blinkTimes (blinks - 1)
   
 let calculate stones blinks =
