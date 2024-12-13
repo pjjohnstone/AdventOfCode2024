@@ -20,3 +20,10 @@ let stringReverse (str: string) =
   |> Seq.toArray
   |> Array.rev
   |> System.String.Concat
+
+let timer f =
+  let timer = new System.Diagnostics.Stopwatch()
+  timer.Start()
+  let result = f()
+  printfn $"Elapsed Time(ms): %i{timer.ElapsedMilliseconds}"
+  result
