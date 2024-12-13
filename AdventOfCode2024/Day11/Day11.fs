@@ -17,20 +17,20 @@ let splitStone stone =
     |> stringToInt64)
   |> Seq.toList
 
-let applyRules result stone =
+let applyRules stone result  =
   match stone with
-  | 0L -> result@[1L]
+  | 0L -> [1L]@result
   | _ ->
     match stone.ToString().Length % 2 with
-    | 0 -> result@(splitStone stone)
-    | _ -> result@[stone * 2024L]
+    | 0 -> (splitStone stone)@result
+    | _ -> [stone * 2024L]@result
 
-let rec blinkTimes blinks stones =
+let rec blinkTimes blinks (stones: int64 list) =
+  printfn $"%i{blinks} blinks remaining"
   match blinks with
   | 0 -> stones
   | _ ->
-    stones
-    |> List.fold applyRules []
+    List.foldBack applyRules stones []
     |> blinkTimes (blinks - 1)
   
 let calculate stones blinks =
