@@ -59,6 +59,7 @@ let sequentialDampenerCases = [
   TestCaseData(Some([8; 6; 4; 4; 1]), isSequential, 1).Returns(false)
   TestCaseData(Some([8; 6; 4; 4; 1]), isSequential, 2).Returns(true)
 ]
+
 [<TestCaseSource(nameof(sequentialDampenerCases))>]
 let ``Applies problem dampener to sequential test`` input =
   let list, func, index = input
