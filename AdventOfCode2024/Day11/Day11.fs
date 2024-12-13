@@ -2,6 +2,11 @@
 
 open AdventOfCode2024
 
+let parse (input: string) =
+  input.Split(" ")
+  |> Array.map stringToInt64
+  |> Array.toList
+
 let splitStone stone =
   let digits = stone.ToString()
   digits
@@ -9,16 +14,16 @@ let splitStone stone =
   |> Seq.map (fun chars ->
     chars
     |> System.String.Concat
-    |> stringToInt)
+    |> stringToInt64)
   |> Seq.toList
 
 let applyRules result stone =
   match stone with
-  | 0 -> result@[1]
+  | 0L -> result@[1L]
   | _ ->
     match stone.ToString().Length % 2 with
     | 0 -> result@(splitStone stone)
-    | _ -> result@[stone * 2024]
+    | _ -> result@[stone * 2024L]
 
 let blinkTimes blinks stones =
   let rec blink blinks stones =
@@ -27,5 +32,10 @@ let blinkTimes blinks stones =
     | _ ->
       stones
       |> List.fold applyRules []
-      |> fun stones -> blink (blinks - 1) stones
+      |> blink (blinks - 1)
   blink blinks stones
+  
+let calculate stones blinks =
+  stones
+  |> blinkTimes blinks
+  |> List.length

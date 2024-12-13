@@ -1,6 +1,5 @@
 ﻿open AdventOfCode2024
-open AdventOfCode2024.Day2.Day2
+open AdventOfCode2024.Day11.Day11
 
-let lines = getLines "Day2/input.txt"
-printfn $"Total Safe reports: %i{(calculate (sumSafeReports checkReport) lines)}"
-printfn $"Total Safe reports with Problem Dampener: %i{(calculate (sumSafeReports checkReportWithDampener) lines)}"
+let lines = getLines "Day11/input.txt"
+printfn $"Total Stones after 25 blinks: %i{calculate (parse lines.Head) 25}"
