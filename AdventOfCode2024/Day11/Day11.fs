@@ -25,15 +25,13 @@ let applyRules result stone =
     | 0 -> result@(splitStone stone)
     | _ -> result@[stone * 2024L]
 
-let blinkTimes blinks stones =
-  let rec blink blinks stones =
-    match blinks with
-    | 0 -> stones
-    | _ ->
-      stones
-      |> List.fold applyRules []
-      |> blink (blinks - 1)
-  blink blinks stones
+let rec blinkTimes blinks stones =
+  match blinks with
+  | 0 -> stones
+  | _ ->
+    stones
+    |> List.fold applyRules []
+    |> blinkTimes (blinks - 1)
   
 let calculate stones blinks =
   stones
