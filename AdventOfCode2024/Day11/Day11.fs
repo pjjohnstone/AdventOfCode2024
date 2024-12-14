@@ -30,18 +30,24 @@ let applyRulesAsync stones =
     return List.foldBack applyRules stones []
   }
 
-let rec blinkTimes blinks (stones: int64 list) =
-  printfn $"%i{blinks} blinks remaining"
-  match blinks with
-  | 0 -> stones
-  | _ ->
-    stones
-    |> List.chunkBySize 100
-    |> List.map applyRulesAsync
-    |> Async.Parallel
-    |> Async.RunSynchronously
-    |> List.concat
-    |> blinkTimes (blinks - 1)
+let arrayChunker (element: 'a list) (result: 'a list array) =
+  let listOfLists = List.splitInto 2 element
+  let arrayOfLists = listOfLists |> List.toArray
+  Array.append result arrayOfLists
+
+let blinkTimes blinks (stones: int64 list) =
+  let rec blinkTimesRec blinks (stones: int64 list array) =
+    printfn $"%i{blinks} blinks remaining"
+    match blinks with
+    | 0 -> stones |> List.concat
+    | _ ->
+      stones
+      |> Array.foldBack [||] arrayChunker
+      |> Array.map applyRulesAsync
+      |> Async.Parallel
+      |> Async.RunSynchronously
+      |> blinkTimesRec (blinks - 1)
+  blinkTimesRec blinks [|stones|]
   
 let calculate stones blinks =
   stones
