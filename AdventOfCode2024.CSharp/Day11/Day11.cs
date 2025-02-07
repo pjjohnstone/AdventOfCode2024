@@ -1,37 +1,14 @@
-﻿using System.Text;
-
-namespace AdventOfCode2024.CSharp.Day11;
+﻿namespace AdventOfCode2024.CSharp.Day11;
 
 public static class Day11
 {
-    public static List<int> BlinkTimes(List<int> input, int blinks)
+    public static List<Stone> ParseLine(string input)
     {
-        var result = new List<List<int>> { input };
-        while (blinks > 0)
-        {
-            var newInput = result.SelectMany(x => x).ToList();
-            result = newInput.Select(ApplyRules).ToList();
-            blinks--;
-        }
-        
-        return result.SelectMany(x => x).ToList();
+        return input.Split(" ").Select(Stone.Parse).ToList();
     }
 
-    private static List<int> ApplyRules(int stone)
+    public static int SumStones(List<Stone> stones, int blinks)
     {
-        if (stone == 0) return [1];
-        return (stone.ToString().Length % 2) switch
-        {
-            0 => SplitStone(stone),
-            _ => [stone * 2024]
-        };
-    }
-
-    private static List<int> SplitStone(int stone)
-    {
-        var digits = stone.ToString().ToCharArray();
-        var first = digits.Take(digits.Length / 2);
-        var second = digits.Skip(digits.Length / 2);
-        return [int.Parse(string.Join("", first)), int.Parse(string.Join("", second))];
+        return stones.Select(stone => stone.BlinkTimes(blinks)).SelectMany(x => x).ToList().Count;
     }
 }
