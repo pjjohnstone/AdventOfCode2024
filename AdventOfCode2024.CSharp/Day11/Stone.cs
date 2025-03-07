@@ -6,22 +6,14 @@ public class Stone(long value)
 
     public List<Stone> BlinkTimes(int blinks)
     {
-        if (blinks == 0)
-            return [this];
-        
-        var result = new List<List<Stone>>
-        {
-            new() {this}
-        };
+        return blinks == 0 ? [this] : RecursiveBlink(blinks);
+    }
 
-        while (blinks > 0)
-        {
-            var newInput = result.SelectMany(x => x).ToList();
-            result = newInput.Select(stone => stone.Blink()).ToList();
-            blinks--;
-        }
-        
-        return result.SelectMany(x => x).ToList();
+    private List<Stone> RecursiveBlink(int blinks)
+    {
+        blinks--;
+        var newStones = Blink();
+        return newStones.Select(stone => stone.BlinkTimes(blinks)).SelectMany(stone => stone).ToList();
     }
 
     private List<Stone> Blink()
