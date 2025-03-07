@@ -9,6 +9,25 @@ public static class Day11
 
     public static int SumStones(List<Stone> stones, int blinks)
     {
-        return stones.Select(stone => stone.BlinkTimes(blinks)).SelectMany(x => x).ToList().Count;
+        return BlinkTimes(stones, blinks).Count;
+    }
+
+    private static List<Stone> BlinkTimes(List<Stone> stones, int blinks)
+    {
+        if (blinks == 0 ) return stones;
+        
+        var results = new List<List<Stone>>()
+        {
+            {stones}
+        };
+        
+        while (blinks > 0)
+        {
+            var currentStones = results.SelectMany(stone => stone).ToList();
+            results = currentStones.Select(stone => stone.Blink()).ToList();
+            blinks--;
+        }
+        
+        return results.SelectMany(stone => stone).ToList();
     }
 }

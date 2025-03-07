@@ -4,19 +4,19 @@ public class Stone(long value)
 {
     public long Value { get; } = value;
 
-    public List<Stone> BlinkTimes(int blinks)
-    {
-        return blinks == 0 ? [this] : RecursiveBlink(blinks);
-    }
+    // public List<Stone> BlinkTimes(int blinks)
+    // {
+    //     return blinks == 0 ? [this] : RecursiveBlink(blinks);
+    // }
+    //
+    // private List<Stone> RecursiveBlink(int blinks)
+    // {
+    //     blinks--;
+    //     var newStones = Blink();
+    //     return newStones.Select(stone => stone.BlinkTimes(blinks)).SelectMany(stone => stone).ToList();
+    // }
 
-    private List<Stone> RecursiveBlink(int blinks)
-    {
-        blinks--;
-        var newStones = Blink();
-        return newStones.Select(stone => stone.BlinkTimes(blinks)).SelectMany(stone => stone).ToList();
-    }
-
-    private List<Stone> Blink()
+    public List<Stone> Blink()
     {
         if (Value.ToString().Length % 2 == 0) return Split();
         return Value switch

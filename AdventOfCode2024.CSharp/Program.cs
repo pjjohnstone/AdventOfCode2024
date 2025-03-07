@@ -3,7 +3,7 @@ using AdventOfCode2024.CSharp.Day11;
 
 const string input = "28 4 3179 96938 0 6617406 490 816207";
 var stones = Day11.ParseLine(input);
-const int blinks = 75;
+const int blinks = 40;
 var timer = Stopwatch.StartNew();
 var result = Day11.SumStones(stones, blinks);
 timer.Stop();
